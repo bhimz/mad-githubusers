@@ -61,4 +61,8 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.gson)
     implementation(libs.gson.converter)
+
+    //Image
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 }
