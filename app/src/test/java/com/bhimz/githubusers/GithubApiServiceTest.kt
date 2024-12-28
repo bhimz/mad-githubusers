@@ -1,5 +1,6 @@
 package com.bhimz.githubusers
 
+import com.bhimz.githubusers.data.DefaultGitUserRepository
 import com.bhimz.githubusers.data.network.GitApiService
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
@@ -51,6 +52,15 @@ class GithubApiServiceTest {
         runBlocking {
             val response = apiService.searchUsers("josh", page = 2)
             println(response)
+        }
+    }
+
+    @Test
+    fun `test repo`() {
+        val repo = DefaultGitUserRepository(apiService)
+        runBlocking {
+            val result = repo.fetch()
+            println(result)
         }
     }
 }
