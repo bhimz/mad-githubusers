@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.bhimz.githubusers"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.bhimz.githubusers"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -56,4 +56,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //Network libraries
+    implementation(libs.retrofit)
+    implementation(libs.gson)
+    implementation(libs.gson.converter)
 }
