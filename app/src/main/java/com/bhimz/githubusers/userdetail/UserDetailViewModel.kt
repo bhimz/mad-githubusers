@@ -1,4 +1,4 @@
-package com.bhimz.githubusers.ui.viewmodel
+package com.bhimz.githubusers.userdetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.bhimz.githubusers.data.GitUserRepository
 import com.bhimz.githubusers.di.Configurator
 import com.bhimz.githubusers.domain.User
+import com.bhimz.githubusers.domain.UserDetail
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -37,7 +38,7 @@ class UserDetailViewModel(private val username: String) : ViewModel() {
 
 sealed class UserDetailPageState {
     data object Loading : UserDetailPageState()
-    data class Initialized(val user: User) : UserDetailPageState()
+    data class Initialized(val user: UserDetail) : UserDetailPageState()
     data class Error(val error: Exception) : UserDetailPageState()
 }
 

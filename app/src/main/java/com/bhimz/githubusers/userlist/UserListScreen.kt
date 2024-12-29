@@ -1,4 +1,4 @@
-package com.bhimz.githubusers.ui.screen
+package com.bhimz.githubusers.userlist
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,7 +20,6 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.bhimz.githubusers.domain.User
-import com.bhimz.githubusers.ui.viewmodel.UserListViewModel
 import com.bhimz.githubusers.ui.widget.UserItem
 
 @OptIn(ExperimentalMaterial3Api::class)

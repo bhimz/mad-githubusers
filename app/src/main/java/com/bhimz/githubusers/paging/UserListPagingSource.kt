@@ -1,4 +1,4 @@
-package com.bhimz.githubusers.ui.paging
+package com.bhimz.githubusers.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

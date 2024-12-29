@@ -1,4 +1,4 @@
-package com.bhimz.githubusers.ui.viewmodel
+package com.bhimz.githubusers.userlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,7 +8,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.bhimz.githubusers.di.Configurator
 import com.bhimz.githubusers.domain.User
-import com.bhimz.githubusers.ui.paging.UserListPagingSource
+import com.bhimz.githubusers.paging.UserListPagingSource
 import kotlinx.coroutines.flow.Flow
 
 class UserListViewModel : ViewModel() {

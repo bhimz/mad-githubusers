@@ -11,7 +11,7 @@ interface GitApiService {
     suspend fun getUsers(@Query("since") since: Long? = null): List<UserResponse>
 
     @GET("/users/{username}")
-    suspend fun getUser(@Path("username") username: String): UserResponse
+    suspend fun getUser(@Path("username") username: String): UserDetailResponse
 
     @GET("/search/users")
     suspend fun searchUsers(

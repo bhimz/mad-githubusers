@@ -1,14 +1,16 @@
 package com.bhimz.githubusers.data
 
 import com.bhimz.githubusers.data.mapper.user
+import com.bhimz.githubusers.data.mapper.userDetail
 import com.bhimz.githubusers.data.network.GitApiService
 import com.bhimz.githubusers.data.network.UserResponse
 import com.bhimz.githubusers.domain.User
+import com.bhimz.githubusers.domain.UserDetail
 import retrofit2.HttpException
 
 interface GitUserRepository {
     suspend fun fetch(lastId: Long? = null): List<User>
-    suspend fun get(username: String): User?
+    suspend fun get(username: String): UserDetail?
 }
 
 class DefaultGitUserRepository(
@@ -21,10 +23,10 @@ class DefaultGitUserRepository(
         return response.map { it.user }
     }
 
-    override suspend fun get(username: String): User? {
+    override suspend fun get(username: String): UserDetail? {
         val response = withApi { apiService.getUser(username) }
         return when (response) {
-            is Result.Success -> response.data.user
+            is Result.Success -> response.data.userDetail
             is Result.Failed -> {
                 if (response.error is HttpException && response.error.code() == 404) {
                     null
