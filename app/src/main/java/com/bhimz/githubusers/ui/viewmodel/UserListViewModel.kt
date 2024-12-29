@@ -2,24 +2,24 @@ package com.bhimz.githubusers.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.bhimz.githubusers.di.Configurator
 import com.bhimz.githubusers.domain.User
+import com.bhimz.githubusers.ui.paging.UserListPagingSource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
 
 class UserListViewModel : ViewModel() {
     private val gitUserRepository = Configurator.gitUserRepository
 
-    private val _users = MutableStateFlow<List<User>>(listOf())
-    val users: Flow<List<User>> = _users
 
-    init {
-        initUsers()
-    }
-
-    private fun initUsers() = viewModelScope.launch {
-        val result = gitUserRepository.fetch()
-        _users.value = result
-    }
+    val users: Flow<PagingData<User>> = Pager(
+        config = PagingConfig(
+            pageSize = 30,
+            prefetchDistance = 20
+        ),
+        pagingSourceFactory = { UserListPagingSource(gitUserRepository) }
+    ).flow.cachedIn(viewModelScope)
 }
