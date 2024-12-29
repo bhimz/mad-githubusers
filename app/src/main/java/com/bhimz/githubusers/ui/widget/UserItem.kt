@@ -28,7 +28,7 @@ import com.bhimz.githubusers.ui.theme.AppTheme
 import com.bhimz.githubusers.ui.theme.Typography
 
 @Composable
-fun UserItem(user: User, modifier: Modifier = Modifier) {
+fun UserItem(user: User, modifier: Modifier = Modifier, onSelected: (User) -> Unit, ) {
 
     ElevatedCard(
         modifier = modifier
@@ -39,7 +39,8 @@ fun UserItem(user: User, modifier: Modifier = Modifier) {
         ),
         colors = CardDefaults.cardColors(
             containerColor =  MaterialTheme.colorScheme.surfaceVariant
-        )
+        ),
+        onClick = { onSelected(user) }
     ) {
         Row(
             modifier = modifier
@@ -80,20 +81,4 @@ fun UserItem(user: User, modifier: Modifier = Modifier) {
         }
     }
 
-}
-
-@Preview
-@Composable
-fun PreviewUserItem() {
-    val user = User(
-        1,
-        "bhimz",
-        "",
-        null,
-        null,
-        avatarUrl = "https://avatars.githubusercontent.com/u/4378481?v=4"
-    )
-    AppTheme {
-        UserItem(user, Modifier.fillMaxWidth())
-    }
 }
