@@ -1,6 +1,7 @@
 package com.bhimz.githubusers.ui.screen
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -9,6 +10,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +28,7 @@ fun UserListScreen(
     userListViewModel: UserListViewModel = viewModel()
 ) {
     val users = userListViewModel.users.collectAsLazyPagingItems()
+    val refreshState = rememberPullToRefreshState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -40,17 +44,23 @@ fun UserListScreen(
             )
         }
     ) { innerPadding ->
-        LazyColumn(modifier = Modifier.padding(innerPadding)) {
-            items(users.itemCount, key = users.itemKey { it.id }) { index ->
-                users[index]?.let {
-                    UserItem(it)
+        PullToRefreshBox(
+            modifier = Modifier.padding(innerPadding).fillMaxWidth(),
+            state = refreshState,
+            isRefreshing = users.loadState.refresh is LoadState.Loading,
+            onRefresh = { users.refresh() }
+        ) {
+            LazyColumn {
+                items(users.itemCount, key = users.itemKey { it.id }) { index ->
+                    users[index]?.let {
+                        UserItem(it)
+                    }
+                }
+                when {
+                    users.loadState.refresh is LoadState.NotLoading -> {}
+
                 }
             }
-            when {
-                 users.loadState.refresh is LoadState.NotLoading-> {}
-
-            }
         }
-
     }
 }

@@ -9,9 +9,7 @@ class UserListPagingSource(
     private val userRepository: GitUserRepository
 ) : PagingSource<Long, User>() {
     override fun getRefreshKey(state: PagingState<Long, User>): Long? {
-        return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id
-        }
+        return null
     }
 
     override suspend fun load(params: LoadParams<Long>): LoadResult<Long, User> {
