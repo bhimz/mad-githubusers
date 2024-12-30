@@ -30,3 +30,10 @@ data class UserDetailResponse(
     val following: Int?,
     val createdAt: String
 )
+
+data class RepoResponse(
+    val id: Long,
+    val name: String,
+    val description: String?,
+    val language: String?
+)

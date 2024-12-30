@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.bhimz.githubusers.data.GitUserRepository
 import com.bhimz.githubusers.di.Configurator
-import com.bhimz.githubusers.domain.User
+import com.bhimz.githubusers.domain.Repo
 import com.bhimz.githubusers.domain.UserDetail
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +16,8 @@ class UserDetailViewModel(private val username: String) : ViewModel() {
 
     private val _pageState = MutableStateFlow<UserDetailPageState>(UserDetailPageState.Loading)
     val pageState: Flow<UserDetailPageState> = _pageState
+    private val _repoSectionState = MutableStateFlow<RepoSectionState>(RepoSectionState.Loading)
+    val repoSectionState: Flow<RepoSectionState> = _repoSectionState
 
     init {
         initUser()
@@ -28,10 +30,21 @@ class UserDetailViewModel(private val username: String) : ViewModel() {
                 _pageState.value = UserDetailPageState.Error(Exception("no user found"))
             } else {
                 _pageState.value = UserDetailPageState.Initialized(user)
+                loadUserRepos()
             }
         } catch (e: Exception) {
             e.printStackTrace()
             _pageState.value = UserDetailPageState.Error(e)
+        }
+    }
+
+    private fun loadUserRepos() = viewModelScope.launch {
+        try {
+            val repos = gitUserRepository.getRepo(username)
+            _repoSectionState.value = RepoSectionState.Initialized(repos)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            _repoSectionState.value = RepoSectionState.Error(e)
         }
     }
 }
@@ -40,6 +53,12 @@ sealed class UserDetailPageState {
     data object Loading : UserDetailPageState()
     data class Initialized(val user: UserDetail) : UserDetailPageState()
     data class Error(val error: Exception) : UserDetailPageState()
+}
+
+sealed class RepoSectionState {
+    data object Loading : RepoSectionState()
+    data class Initialized(val repos: List<Repo>) : RepoSectionState()
+    data class Error(val error: Exception) : RepoSectionState()
 }
 
 @Suppress("UNCHECKED_CAST")

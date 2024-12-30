@@ -19,4 +19,7 @@ interface GitApiService {
         @Query("page") page: Int = 1,
         @Query("per_page") pageCount: Int = 30
     ): PagedUserResponse
+
+    @GET("/users/{username}/repos")
+    suspend fun getUserRepo(@Path("username") username: String): List<RepoResponse>
 }

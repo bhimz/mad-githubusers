@@ -24,6 +24,7 @@ fun RepoItem(repo: Repo) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .height(170.dp)
             .padding(horizontal = 10.dp, vertical = 8.dp),
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = 6.dp,
@@ -42,23 +43,26 @@ fun RepoItem(repo: Repo) {
             Text(
                 repo.description.orEmpty(),
                 maxLines = 3,
-                style = Typography.bodyMedium
+                style = Typography.bodyMedium,
+                modifier = Modifier.weight(1f)
             )
             Spacer(Modifier.height(10.dp))
-            Column(
-                modifier = Modifier
-                    .border(
-                        width = 1.dp,
-                        color = Color.White,
-                        shape = RoundedCornerShape(8.dp)
+            if (repo.language != null) {
+                Column(
+                    modifier = Modifier
+                        .border(
+                            width = 1.dp,
+                            color = Color.White,
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                ) {
+                    Text(
+                        repo.language,
+                        modifier = Modifier.padding(6.dp),
+                        style = Typography.labelSmall
+                            .copy(fontWeight = FontWeight.Bold)
                     )
-            ) {
-                Text(
-                    repo.language,
-                    modifier = Modifier.padding(6.dp),
-                    style = Typography.labelSmall
-                        .copy(fontWeight = FontWeight.Bold)
-                )
+                }
             }
         }
     }

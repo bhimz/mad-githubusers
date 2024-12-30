@@ -39,7 +39,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import com.bhimz.githubusers.domain.Repo
 import com.bhimz.githubusers.ui.theme.Typography
 import com.bhimz.githubusers.ui.widget.RepoItem
 import java.text.SimpleDateFormat
@@ -55,12 +54,7 @@ fun UserDetailScreen(
 ) {
     val pageState by viewModel.pageState.collectAsState(UserDetailPageState.Loading)
     val dateFormat = SimpleDateFormat("MMM yyyy", Locale.US)
-    val repos: List<Repo> = listOf(
-        Repo("Sample Repo", "Lorem ipsum sit dolor amet", "Kotlin"),
-        Repo("Sample Repo", "Lorem ipsum sit dolor amet", "Kotlin"),
-        Repo("Sample Repo", "Lorem ipsum sit dolor amet", "Kotlin"),
-        Repo("Sample Repo", "Lorem ipsum sit dolor amet", "Kotlin"),
-    )
+    val repoSectionState by viewModel.repoSectionState.collectAsState(RepoSectionState.Loading)
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -209,8 +203,14 @@ fun UserDetailScreen(
                                 shape = RectangleShape
                             ),
                     ) {
-                        items(repos.count(), key = { it }) { index ->
-                            RepoItem(repos[index])
+                        when (repoSectionState) {
+                            is RepoSectionState.Initialized -> {
+                                val repos = (repoSectionState as RepoSectionState.Initialized).repos
+                                items(repos.count()) { index ->
+                                    RepoItem(repos[index])
+                                }
+                            }
+                            else -> {}
                         }
                     }
                 }
