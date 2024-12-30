@@ -1,5 +1,6 @@
 package com.bhimz.githubusers.data.mapper
 
+import com.bhimz.githubusers.data.network.PagedUserResponse
 import com.bhimz.githubusers.data.network.UserDetailResponse
 import com.bhimz.githubusers.data.network.UserResponse
 import com.bhimz.githubusers.domain.User
@@ -27,3 +28,6 @@ val UserDetailResponse.userDetail: UserDetail
         following = following ?: 0,
         memberSince = dateFormat.parse(createdAt)
     )
+
+val PagedUserResponse.users: List<User>
+    get() = this.items.map { it.user }

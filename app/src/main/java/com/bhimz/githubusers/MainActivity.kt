@@ -50,7 +50,12 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable<SearchUser> {
-                        UserSearchScreen(onNavigateUp = { navController.navigateUp() })
+                        UserSearchScreen(
+                            onNavigateUp = { navController.navigateUp() },
+                            onNavigateToDetail = {
+                                navController.navigate(route = UserDetail(it.username))
+                            }
+                        )
                     }
                 }
             }
