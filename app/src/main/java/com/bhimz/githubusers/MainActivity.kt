@@ -11,6 +11,7 @@ import androidx.navigation.toRoute
 import com.bhimz.githubusers.userdetail.UserDetailScreen
 import com.bhimz.githubusers.userlist.UserListScreen
 import com.bhimz.githubusers.ui.theme.AppTheme
+import com.bhimz.githubusers.usersearch.UserSearchScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -18,6 +19,9 @@ object UserList
 
 @Serializable
 data class UserDetail(val username: String)
+
+@Serializable
+object SearchUser
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +35,9 @@ class MainActivity : ComponentActivity() {
                         UserListScreen(
                             onNavigateToDetail = {
                                 navController.navigate(route = UserDetail(it.username))
+                            },
+                            onNavigateToSearch = {
+                                navController.navigate(route = SearchUser)
                             }
                         )
                     }
@@ -40,6 +47,10 @@ class MainActivity : ComponentActivity() {
                         UserDetailScreen(userDetail.username) {
                             navController.navigateUp()
                         }
+                    }
+
+                    composable<SearchUser> {
+                        UserSearchScreen(onNavigateUp = { navController.navigateUp() })
                     }
                 }
             }
