@@ -51,7 +51,7 @@ class UserDetailViewModel(private val username: String) : ViewModel() {
 
 sealed class UserDetailPageState {
     data object Loading : UserDetailPageState()
-    data class Initialized(val user: UserDetail) : UserDetailPageState()
+    data class Initialized(val userDetail: UserDetail) : UserDetailPageState()
     data class Error(val error: Exception) : UserDetailPageState()
 }
 
