@@ -4,14 +4,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -39,7 +39,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.bhimz.githubusers.domain.Repo
 import com.bhimz.githubusers.ui.theme.Typography
+import com.bhimz.githubusers.ui.widget.RepoItem
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -53,6 +55,12 @@ fun UserDetailScreen(
 ) {
     val pageState by viewModel.pageState.collectAsState(UserDetailPageState.Loading)
     val dateFormat = SimpleDateFormat("MMM yyyy", Locale.US)
+    val repos: List<Repo> = listOf(
+        Repo("Sample Repo", "Lorem ipsum sit dolor amet", "Kotlin"),
+        Repo("Sample Repo", "Lorem ipsum sit dolor amet", "Kotlin"),
+        Repo("Sample Repo", "Lorem ipsum sit dolor amet", "Kotlin"),
+        Repo("Sample Repo", "Lorem ipsum sit dolor amet", "Kotlin"),
+    )
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -191,16 +199,19 @@ fun UserDetailScreen(
                             .height(2.dp)
                             .background(color = Color.LightGray)
                     )
-                    LazyColumn(
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
                             .background(
                                 color = MaterialTheme.colorScheme.surfaceVariant,
                                 shape = RectangleShape
-                            )
+                            ),
                     ) {
-
+                        items(repos.count(), key = { it }) { index ->
+                            RepoItem(repos[index])
+                        }
                     }
                 }
             }
